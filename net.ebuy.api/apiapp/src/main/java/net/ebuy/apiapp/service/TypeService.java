@@ -3,7 +3,10 @@ package net.ebuy.apiapp.service;
 import java.util.List;
 
 import net.ebuy.apiapp.model.Type;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 public interface TypeService {
 
 	Type findById(int id);

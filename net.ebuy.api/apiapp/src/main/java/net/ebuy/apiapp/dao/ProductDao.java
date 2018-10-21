@@ -3,7 +3,10 @@ package net.ebuy.apiapp.dao;
 import java.util.List;
 
 import net.ebuy.apiapp.model.Product;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 public interface ProductDao {
 
 	Product findById(int id);

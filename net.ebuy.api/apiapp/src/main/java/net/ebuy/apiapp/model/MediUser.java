@@ -3,7 +3,10 @@ package net.ebuy.apiapp.model;
 import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 public class MediUser extends User {
 
    private static final long serialVersionUID = -3531439484732724601L;

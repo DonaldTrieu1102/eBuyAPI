@@ -29,7 +29,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .requestMatchers()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/actuator/**", "/api-docs/**","/api/type/**","/api/typeProduct/**","/api/productdetail/**","/api/listproduct/**","/api/cities/**", "/api/configs/**", "/api/login", "/api/customers/login", "/api/customers/register", "/api/customers/external-login", "/api/customers/forgot-password").permitAll()
+                .antMatchers("/actuator/**", "/api-docs/**","/api/type/**","/api/typeProduct/**","/api/productdetail/**","/api/listproduct/**","/api/cities/**", "/api/configs/**", "/api/login","/api/customers/login", "/api/customers/register", "/api/customers/external-login", "/api/customers/forgot-password").permitAll()
                 .antMatchers("/api/**" ).hasAnyRole("OWNER", "MANAGER", "WAITER", "CUSTOMER")
                 .anyRequest().authenticated();
     }

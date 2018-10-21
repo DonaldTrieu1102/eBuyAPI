@@ -8,7 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ebuy.apiapp.model.ProductDetail;
 import net.ebuy.apiapp.dao.ProductDetailDao;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 
 @Transactional
 @Service("productDetailService")
@@ -41,15 +44,21 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 	}
 
 	@Override
-	public ProductDetail findProductDetailrById(int id) {
+	public ProductDetail findProductDetailById(int idProductDetail) {
 		// TODO Auto-generated method stub
-		return dao.findById(id);
+		return dao.findProductDetailById(idProductDetail);
 	}
 
 	@Override
 	public List<ProductDetail> findListProductDetailByIdProduct(List<ProductDetail> list,int idProduct) {
 		// TODO Auto-generated method stub
 		return dao.findListProductDetailByIdProduct(list,idProduct);
+	}
+
+	@Override
+	public void updateProductDetail(ProductDetail productDetail) {
+		// TODO Auto-generated method stub
+		dao.updateProductDetail(productDetail);
 	}
 
 }

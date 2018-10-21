@@ -29,9 +29,8 @@ public class AppUserDetailsService implements UserDetailsService {
     @Override
     public MediUser loadUserByUsername(String s) throws UsernameNotFoundException {
     		MediUser userDetails;
-    		String[] sTemp = s.split(",");
-    
-			Customer user = customerRepository.findCustomerByEmail(sTemp[0]);
+   
+			Customer user = customerRepository.findByUsername(s);
 
 	        if(user == null) {
 	            throw new UsernameNotFoundException(String.format("The username %s doesn't exist", s));
@@ -41,7 +40,7 @@ public class AppUserDetailsService implements UserDetailsService {
 	        authorities.add(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
 
 	        userDetails = new MediUser(
-	        		user.getEmail(), 
+	        		user.getUsername(), 
 	        		user.getPassword(),
 	        		authorities);
     		return userDetails;

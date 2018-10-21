@@ -44,7 +44,7 @@ public class BaseController {
 			String token = authorizeHeader.replace("Bearer ", "");;
 			ObjectMapper mapper = new ObjectMapper();
 			TokenModel data = mapper.readValue(decodeJWTToken(token), TokenModel.class);
-			Customer customer = customerService.findCustomerByEmail(data.getUser_name());
+			Customer customer = customerService.findCustomerByUserName(data.getUser_name());
 			return customer;
 		} catch(Exception ex) {
 			ex.printStackTrace();

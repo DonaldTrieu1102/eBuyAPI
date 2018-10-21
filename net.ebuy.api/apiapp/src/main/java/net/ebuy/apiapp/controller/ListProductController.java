@@ -23,6 +23,10 @@ import net.ebuy.apiapp.model.ProductDetail;
 import net.ebuy.apiapp.service.ListProductService;
 import net.ebuy.apiapp.service.ProductDetailService;
 import net.ebuy.apiapp.service.ProductService;
+/**
+ * @author Donald Trieu
+ *
+ */
 
 @RestController
 @RequestMapping("/api/listproduct")
@@ -101,9 +105,8 @@ public class ListProductController {
 					public final int id_product = productDetail.getId_product().getId();
 					public final String name_product_detail = productDetail.getName_product_detail();
 					public final String image_product_detail = productDetail.getImage_product_detail();
-					public final String size_product_detail = productDetail.getSize_product_detail();
 					public final float price_product_detail = productDetail.getPrice_product_detail();
-					public final String quantity_product_detail = productDetail.getQuantity_product_detail();
+					public final float quantity_product_detail = productDetail.getQuantity_product_detail();
 					public final String color_product_detail = productDetail.getColor_product_detail();
 					public final String weigh_product_detail = productDetail.getWeigh_product_detail();
 					public final boolean product_status = productDetail.getProduct_status();

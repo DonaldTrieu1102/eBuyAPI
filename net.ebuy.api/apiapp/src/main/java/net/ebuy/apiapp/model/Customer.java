@@ -10,9 +10,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Entity
-@Table(name="customer")
+@Table(name="customers")
 public class Customer extends BaseModel {
 
 	private static final long serialVersionUID = 1L;
@@ -25,6 +28,7 @@ public class Customer extends BaseModel {
 	@Id
 	private int id;
 	
+	@Column(name="username")
 	private String username;
 	
 	private String password;
@@ -33,6 +37,7 @@ public class Customer extends BaseModel {
 	
 	private String email;
 	
+	@Column(name="avatar")
 	private String avatar;
 	
 	private int gender;

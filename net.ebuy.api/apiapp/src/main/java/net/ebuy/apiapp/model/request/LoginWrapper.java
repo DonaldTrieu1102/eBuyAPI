@@ -3,7 +3,10 @@ package net.ebuy.apiapp.model.request;
 import java.util.Base64;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 public class LoginWrapper {
 
 	@JsonProperty("username")

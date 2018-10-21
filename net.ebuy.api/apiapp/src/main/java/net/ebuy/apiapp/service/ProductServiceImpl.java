@@ -8,7 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ebuy.apiapp.dao.ProductDao;
 import net.ebuy.apiapp.model.Product;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Transactional
 @Service("productService")
 public class ProductServiceImpl implements ProductService{

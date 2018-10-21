@@ -10,7 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import net.ebuy.apiapp.model.Customer;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @SuppressWarnings("unused")
 @Repository("customerDao")
 public class CustomerDaoImpl extends AbstractDao<Integer, Customer> implements CustomerDao {
@@ -77,11 +80,11 @@ public class CustomerDaoImpl extends AbstractDao<Integer, Customer> implements C
 	}
 
 	@Override
-	public Customer findCustomerByUserName(String userName) {
+	public Customer findCustomerByUserName(String username) {
 		// TODO Auto-generated method stub
 		return (Customer) sessionFactory.getCurrentSession()
 				.createCriteria(Customer.class)
-                .add(Restrictions.eq("username", userName))
+                .add(Restrictions.eq("username", username))
                 .uniqueResult();
 	}
 

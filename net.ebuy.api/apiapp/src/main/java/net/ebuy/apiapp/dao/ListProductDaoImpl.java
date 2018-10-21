@@ -8,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import net.ebuy.apiapp.model.ListProduct;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Repository("listProductDao")
 public class ListProductDaoImpl extends AbstractDao<Integer, ListProduct> implements ListProductDao{
 

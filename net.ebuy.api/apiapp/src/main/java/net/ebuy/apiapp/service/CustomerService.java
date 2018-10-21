@@ -3,7 +3,10 @@ package net.ebuy.apiapp.service;
 import java.util.List;
 
 import net.ebuy.apiapp.model.Customer;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 public interface CustomerService {
 
 	Customer findById(int id);
@@ -18,7 +21,8 @@ public interface CustomerService {
 
 	Customer findCustomerById(int customerId);
 	
-	Customer findCustomerByUserName(String userName);
+	Customer findCustomerByUserName(String username);
+
 	
 	Customer findCustomerByEmail(String email);
 	

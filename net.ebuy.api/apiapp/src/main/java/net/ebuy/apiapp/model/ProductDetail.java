@@ -2,12 +2,17 @@ package net.ebuy.apiapp.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Entity
 @Table(name="product_detail")
 public class ProductDetail extends BaseModel {
@@ -18,12 +23,12 @@ public class ProductDetail extends BaseModel {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_product")
 	private Product id_product;
-	
 	
 	
 	@Column(name = "name_product")
@@ -32,14 +37,12 @@ public class ProductDetail extends BaseModel {
 	@Column(name ="image")
 	private String image_product_detail;
 	
-	@Column(name ="size")
-	private String size_product_detail;
 	
 	@Column(name ="price")
 	private Float price_product_detail;
 	
 	@Column(name ="quantity")
-	private String quantity_product_detail;
+	private float quantity_product_detail;
 	
 	@Column(name ="color")
 	private String color_product_detail;
@@ -50,7 +53,7 @@ public class ProductDetail extends BaseModel {
 	private Boolean product_status;
 
 	
-	@Column(name ="describe")
+	@Column(name ="`describe`")
 	private String describe_product_detail;
 	
 	
@@ -98,14 +101,6 @@ public class ProductDetail extends BaseModel {
 		this.image_product_detail = image_product_detail;
 	}
 
-	public String getSize_product_detail() {
-		return size_product_detail;
-	}
-
-	public void setSize_product_detail(String size_product_detail) {
-		this.size_product_detail = size_product_detail;
-	}
-
 	public Float getPrice_product_detail() {
 		return price_product_detail;
 	}
@@ -114,11 +109,11 @@ public class ProductDetail extends BaseModel {
 		this.price_product_detail = price_product_detail;
 	}
 
-	public String getQuantity_product_detail() {
+	public float getQuantity_product_detail() {
 		return quantity_product_detail;
 	}
 
-	public void setQuantity_product_detail(String quantity_product_detail) {
+	public void setQuantity_product_detail(float quantity_product_detail) {
 		this.quantity_product_detail = quantity_product_detail;
 	}
 

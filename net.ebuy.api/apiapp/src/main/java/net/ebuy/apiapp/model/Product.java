@@ -5,7 +5,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Entity
 @Table(name="product")
 public class Product extends BaseModel {

@@ -2,7 +2,10 @@ package net.ebuy.apiapp.model.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 public class TokenCustomerResponse extends BaseResponse {
 	
 

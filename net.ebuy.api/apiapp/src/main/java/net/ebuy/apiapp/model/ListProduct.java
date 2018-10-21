@@ -4,7 +4,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Entity
 @Table(name="list_product")
 public class ListProduct extends BaseModel {

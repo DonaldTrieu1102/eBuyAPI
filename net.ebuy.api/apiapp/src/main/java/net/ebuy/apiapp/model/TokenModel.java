@@ -1,5 +1,8 @@
 package net.ebuy.apiapp.model;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 public class TokenModel {
 
 	private String user_name;

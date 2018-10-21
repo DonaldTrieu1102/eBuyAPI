@@ -1,9 +1,13 @@
 package net.ebuy.apiapp.dao;
 
+
 import java.util.List;
 
 import net.ebuy.apiapp.model.Customer;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 public interface CustomerDao {
 	
 	Customer findById(int id);
@@ -16,7 +20,7 @@ public interface CustomerDao {
 
 	Customer findCustomerById(int custId);
 	
-	Customer findCustomerByUserName(String userName);
+	Customer findCustomerByUserName(String username);
 
 	
 	Customer findCustomerByEmail(String email);

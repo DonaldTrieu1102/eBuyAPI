@@ -8,7 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ebuy.apiapp.dao.CustomerDao;
 import net.ebuy.apiapp.model.Customer;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Transactional
 @Service("customerService")
 public class CustomerServiceImpl implements CustomerService {
@@ -79,11 +82,8 @@ public class CustomerServiceImpl implements CustomerService {
 	}
 
 	@Override
-	public Customer findCustomerByUserName(String userName) {
+	public Customer findCustomerByUserName(String username) {
 		// TODO Auto-generated method stub
-		return dao.findCustomerByUserName(userName);
+		return dao.findCustomerByUserName(username);
 	}
-   
-	
-	
 }

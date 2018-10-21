@@ -10,7 +10,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Entity
 @Table(name ="district")
 public class District {

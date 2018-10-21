@@ -6,7 +6,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Entity
 @Table(name="type")
 public class Type extends BaseModel {

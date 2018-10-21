@@ -1,3 +1,4 @@
+net\ebuy\apiapp\dao\TypeProductDaoImpl.class
 net\ebuy\apiapp\dao\ListProductDaoImpl.class
 net\ebuy\apiapp\service\CityServiceImpl.class
 net\ebuy\apiapp\dao\TypeDao.class
@@ -12,13 +13,16 @@ net\ebuy\apiapp\config\ApiConfig.class
 net\ebuy\apiapp\handle\BasicInterceptor.class
 net\ebuy\apiapp\service\impl\AppUserDetailsService.class
 net\ebuy\apiapp\dao\AbstractDao.class
+net\ebuy\apiapp\controller\TypeProductController$1.class
 net\ebuy\apiapp\controller\ProductDetailController$1.class
 net\ebuy\apiapp\model\ListProduct.class
 net\ebuy\apiapp\model\response\BaseResponse.class
 net\ebuy\apiapp\service\TypeServiceImpl.class
 net\ebuy\apiapp\controller\BaseController.class
 net\ebuy\apiapp\config\AdditionalWebConfig.class
+net\ebuy\apiapp\dao\TypeProductDaoImpl$1.class
 net\ebuy\apiapp\service\ProductService.class
+net\ebuy\apiapp\controller\TypeProductController.class
 net\ebuy\apiapp\dao\CustomerDaoImpl.class
 net\ebuy\apiapp\service\ListProductService.class
 net\ebuy\apiapp\controller\ProductDetailController.class
@@ -41,6 +45,8 @@ net\ebuy\apiapp\service\CustomerService.class
 net\ebuy\apiapp\model\BaseResponse.class
 net\ebuy\apiapp\service\ListProductServiceImpl.class
 net\ebuy\apiapp\repository\CustomerRepository.class
+net\ebuy\apiapp\service\TypeProductServiceImpl.class
+net\ebuy\apiapp\controller\TypeController$1.class
 net\ebuy\apiapp\dao\ProductDetailDaoImpl.class
 net\ebuy\apiapp\repository\CityRepository.class
 net\ebuy\apiapp\model\Type.class
@@ -48,6 +54,7 @@ net\ebuy\apiapp\helper\ResponseStatusEnum.class
 net\ebuy\apiapp\model\Product.class
 net\ebuy\apiapp\controller\ListProductController$1.class
 net\ebuy\apiapp\controller\TypeController.class
+net\ebuy\apiapp\dao\TypeProductDao.class
 net\ebuy\apiapp\config\ApplicationProperties.class
 net\ebuy\apiapp\controller\ListProductController.class
 net\ebuy\apiapp\service\ProductDetailServiceImpl.class
@@ -60,6 +67,7 @@ net\ebuy\apiapp\model\ProductDetail.class
 net\ebuy\apiapp\dao\ListProductDao.class
 net\ebuy\apiapp\dao\CustomerDao.class
 net\ebuy\apiapp\model\MediUser.class
+net\ebuy\apiapp\service\TypeProductService.class
 net\ebuy\apiapp\controller\CustomerController.class
 net\ebuy\apiapp\utils\Utils.class
 net\ebuy\apiapp\model\TypeProduct.class

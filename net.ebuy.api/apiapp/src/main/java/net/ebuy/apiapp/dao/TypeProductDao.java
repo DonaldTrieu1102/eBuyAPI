@@ -2,7 +2,10 @@ package net.ebuy.apiapp.dao;
 
 import java.util.List;
 import net.ebuy.apiapp.model.TypeProduct;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 public interface TypeProductDao {
 
 	TypeProduct findById(int id);

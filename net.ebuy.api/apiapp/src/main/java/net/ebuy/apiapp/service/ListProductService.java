@@ -3,7 +3,10 @@ package net.ebuy.apiapp.service;
 import java.util.List;
 
 import net.ebuy.apiapp.model.ListProduct;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 public interface ListProductService {
 	
 	ListProduct findById(int id);

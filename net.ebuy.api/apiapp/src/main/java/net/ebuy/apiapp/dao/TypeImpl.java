@@ -8,7 +8,10 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import net.ebuy.apiapp.model.Type;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Repository("typeDao")
 public class TypeImpl extends AbstractDao<Integer, Type> implements TypeDao {
 

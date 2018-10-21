@@ -8,7 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import net.ebuy.apiapp.dao.TypeDao;
 import net.ebuy.apiapp.model.Type;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Transactional
 @Service("typeService")
 public class TypeServiceImpl implements TypeService {

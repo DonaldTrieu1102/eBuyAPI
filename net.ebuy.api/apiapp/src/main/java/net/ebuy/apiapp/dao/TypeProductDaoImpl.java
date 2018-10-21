@@ -11,7 +11,10 @@ import org.springframework.stereotype.Repository;
 
 import net.ebuy.apiapp.model.Type;
 import net.ebuy.apiapp.model.TypeProduct;
-
+/**
+ * @author Donald Trieu
+ *
+ */
 @Repository("typeProductDao")
 public class TypeProductDaoImpl extends AbstractDao<Integer, TypeProduct> implements TypeProductDao {
 
