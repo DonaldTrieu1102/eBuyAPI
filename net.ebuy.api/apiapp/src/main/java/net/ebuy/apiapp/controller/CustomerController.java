@@ -128,16 +128,7 @@ public class CustomerController extends BaseController {
 			TokenModel tokenModel = mapper.readValue(decodeJWTToken(data.getAccess_token()), TokenModel.class);
 			Customer customer = customerService.findCustomerByUserName(tokenModel.getUser_name());
 			
-			TokenCustomerResponse tokenCustomerResponse = new TokenCustomerResponse();
-//			data.setUsername(customer.getUsername());
-//			data.setCustomerId(customer.getId());
-//			data.setName(customer.getFullname());
-//			data.setEmail(customer.getEmail());
-//			data.setPhoneNumber(customer.getPhone_number());
-//			data.setAvatar("");
-//			data.setToken_type("Bearer");
-			
-			
+			TokenCustomerResponse tokenCustomerResponse = new TokenCustomerResponse();			
 			tokenCustomerResponse.setUsername(customer.getUsername());
 			tokenCustomerResponse.setCustomerId(customer.getId());
 			tokenCustomerResponse.setName(customer.getFullname());
@@ -206,10 +197,10 @@ public class CustomerController extends BaseController {
 
 	}
 	// order detail with status = 0
-		@PreAuthorize("hasRole('CUSTOMER')")
-		@RequestMapping(value = "/{id}/create_order", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
-		@ResponseBody
-		public ResponseEntity<BaseResponse> addOder(HttpServletRequest request,
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@RequestMapping(value = "/{id}/create_order", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> addOder(HttpServletRequest request,
 				@RequestBody OrderWrapper wrapper) {
 			BaseResponse response = new BaseResponse();
 			response.setStatus(ResponseStatusEnum.SUCCESS);
@@ -265,6 +256,9 @@ public class CustomerController extends BaseController {
 			return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 
 		}
+	// add product detail 
+	
+		
 		
 		
 		
