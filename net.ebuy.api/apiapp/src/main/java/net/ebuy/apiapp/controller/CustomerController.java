@@ -1,6 +1,7 @@
 package net.ebuy.apiapp.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -144,7 +145,35 @@ public class CustomerController extends BaseController {
 		}
 		return null;
 	}
-	
+	// get all customer
+	@RequestMapping(value = "/{id}/getall", method = RequestMethod.GET, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> addOderDetail(HttpServletRequest request) {
+		BaseResponse response = new BaseResponse();
+		response.setStatus(ResponseStatusEnum.SUCCESS);
+		response.setMessage(ResponseStatusEnum.SUCCESS);
+		response.setData(null);
+		try {
+			
+			List<Customer> customers = customerService.findAllCustomers();
+			List<Object> customerResponse = new ArrayList<>();
+			for(Customer customer: customers) {
+				Object object = new Object() {
+					public final int id_customer = customer.getId();
+					public final String name = customer.getUsername();
+					public final String avatar = customer.getAvatar();
+				};
+				customerResponse.add(object);
+			}
+			response.setData(customerResponse);			
+		}catch(Exception ex) {
+			response.setStatus(ResponseStatusEnum.FAIL);
+			response.setMessageError(ex.getMessage());
+		}
+		
+		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+
+	}
 	// order detail with status = 0
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@RequestMapping(value = "/{id}/add_orderDetail", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
@@ -256,7 +285,11 @@ public class CustomerController extends BaseController {
 			return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 
 		}
-	// add product detail 
+	// customer add product detail
+	
+	
+	
+	
 	
 		
 		

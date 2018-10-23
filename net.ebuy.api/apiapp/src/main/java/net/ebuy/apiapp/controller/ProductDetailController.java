@@ -70,7 +70,8 @@ public class ProductDetailController {
 		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 
 	}
+	// get all product detail of customer buy with id_customer
 	
-
+	
 	
 }
