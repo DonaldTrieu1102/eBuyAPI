@@ -32,11 +32,16 @@ public class WardServiceImpl implements WardService{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public List<Ward> findAllWardByIdDistrict(List<Ward> wards, int idDistrict) {
+		// TODO Auto-generated method stub
+		return dao.findAllWardByIdDistrict(wards, idDistrict);
+	}
 
 	@Override
-	public List<Ward> findAllCity() {
+	public List<Ward> findAllWard() {
 		// TODO Auto-generated method stub
-		return dao.findAllCity();
+		return dao.findAllWard();
 	}
 
 }

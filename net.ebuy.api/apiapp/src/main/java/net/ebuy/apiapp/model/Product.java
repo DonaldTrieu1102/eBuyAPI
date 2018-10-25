@@ -32,6 +32,11 @@ public class Product extends BaseModel {
 	@ManyToOne
 	@JoinColumn(name="id_type_product")
 	private TypeProduct id_type_product;
+	
+	
+	@ManyToOne
+	@JoinColumn(name="id_customer")
+	private Customer id_customer;
 
 	public int getId() {
 		return id;
@@ -64,5 +69,14 @@ public class Product extends BaseModel {
 	public void setId_type_product(TypeProduct id_type_product) {
 		this.id_type_product = id_type_product;
 	}
+
+	public Customer getId_customer() {
+		return id_customer;
+	}
+
+	public void setId_customer(Customer id_customer) {
+		this.id_customer = id_customer;
+	}
+	
 
 }

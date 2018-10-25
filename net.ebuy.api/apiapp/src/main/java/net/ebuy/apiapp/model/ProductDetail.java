@@ -42,7 +42,7 @@ public class ProductDetail extends BaseModel {
 	private Float price_product_detail;
 	
 	@Column(name ="quantity")
-	private float quantity_product_detail;
+	private int quantity_product_detail;
 	
 	@Column(name ="color")
 	private String color_product_detail;
@@ -109,11 +109,11 @@ public class ProductDetail extends BaseModel {
 		this.price_product_detail = price_product_detail;
 	}
 
-	public float getQuantity_product_detail() {
+	public int getQuantity_product_detail() {
 		return quantity_product_detail;
 	}
 
-	public void setQuantity_product_detail(float quantity_product_detail) {
+	public void setQuantity_product_detail(int quantity_product_detail) {
 		this.quantity_product_detail = quantity_product_detail;
 	}
 

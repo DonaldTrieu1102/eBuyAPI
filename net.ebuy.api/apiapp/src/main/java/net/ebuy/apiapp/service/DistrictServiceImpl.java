@@ -29,15 +29,21 @@ public class DistrictServiceImpl implements DistrictService {
 	}
 
 	@Override
-	public void deleteCity(Integer districtId) {
+	public void deleteDistrict(Integer districtId) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<District> findAllCity() {
+	public List<District> findAllDistrict() {
 		// TODO Auto-generated method stub
-		return dao.findAllCity();
+		return dao.findAllDistrict();
+	}
+
+	@Override
+	public List<District> findAllDistrictByIdCity(List<District> districts, int idCity) {
+		// TODO Auto-generated method stub
+		return dao.findAllDistrictByIdCity(districts, idCity);
 	}
 
 }

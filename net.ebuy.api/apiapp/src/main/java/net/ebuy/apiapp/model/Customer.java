@@ -5,6 +5,8 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -52,14 +54,20 @@ public class Customer extends BaseModel {
 	@Column(name="phone_number")
 	private String phone_number;
 	
-	@Column(name="id_city")
-	private int id_city;
 	
-	@Column(name="id_district")
-	private int id_district;
+	@ManyToOne
+	@JoinColumn(name="id_city")
+	private City id_city;
 	
-	@Column(name="id_ward")
-	private int id_ward;
+	@ManyToOne
+	@JoinColumn(name="id_district")
+	private District id_district;
+	
+	@ManyToOne
+	@JoinColumn(name="id_ward")
+	private Ward id_ward;
+	
+
 	
 	@Column(name="streetname")
 	private String streetname;
@@ -143,27 +151,27 @@ public class Customer extends BaseModel {
 		this.phone_number = phone_number;
 	}
 
-	public int getId_city() {
+	public City getId_city() {
 		return id_city;
 	}
 
-	public void setId_city(int id_city) {
+	public void setId_city(City id_city) {
 		this.id_city = id_city;
 	}
 
-	public int getId_district() {
+	public District getId_district() {
 		return id_district;
 	}
 
-	public void setId_district(int id_district) {
+	public void setId_district(District id_district) {
 		this.id_district = id_district;
 	}
 
-	public int getId_ward() {
+	public Ward getId_ward() {
 		return id_ward;
 	}
 
-	public void setId_ward(int id_ward) {
+	public void setId_ward(Ward id_ward) {
 		this.id_ward = id_ward;
 	}
 

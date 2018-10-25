@@ -10,7 +10,10 @@ public interface DistrictDao {
 	
 	void saveDistrict(District district);
 	
-	void deleteCity(Integer districtId);
+	void deleteDistrict(Integer districtId);
 	
-	List<District> findAllCity();
+	List<District> findAllDistrict();
+	
+	List<District> findAllDistrictByIdCity(List<District> districts,int idCity);
+
 }

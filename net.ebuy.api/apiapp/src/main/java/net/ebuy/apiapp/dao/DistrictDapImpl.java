@@ -1,6 +1,7 @@
 package net.ebuy.apiapp.dao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -28,17 +29,26 @@ public class DistrictDapImpl extends AbstractDao<Integer, District> implements D
 	}
 
 	@Override
-	public void deleteCity(Integer districtId) {
+	public void deleteDistrict(Integer districtId) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public List<District> findAllCity() {
+	public List<District> findAllDistrict() {
 		// TODO Auto-generated method stub
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(District.class);
 		List<District> districts = criteria.list();
 		return districts;
+	}
+
+	@Override
+	public List<District> findAllDistrictByIdCity(List<District> districts,int idCity) {
+		// TODO Auto-generated method stub
+		List<District> listDistricts = districts.stream()
+				.filter(p-> p.getId_city().getId()==idCity)
+				.collect(Collectors.toList());
+		return listDistricts;
 	}
 
 }

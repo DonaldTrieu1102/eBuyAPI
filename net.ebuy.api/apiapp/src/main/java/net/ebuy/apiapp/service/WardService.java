@@ -11,5 +11,7 @@ public interface WardService {
 	
 	void deleteWard(Integer wardId);
 	
-	List<Ward> findAllCity();
+	List<Ward> findAllWard();
+	
+	List<Ward> findAllWardByIdDistrict(List<Ward> wards,int idDistrict);
 }
