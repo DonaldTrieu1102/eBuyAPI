@@ -26,23 +26,27 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.ebuy.apiapp.config.ApplicationProperties;
 import net.ebuy.apiapp.helper.ResponseStatusEnum;
 import net.ebuy.apiapp.model.BaseResponse;
 import net.ebuy.apiapp.model.Customer;
+import net.ebuy.apiapp.model.FeedBack;
 import net.ebuy.apiapp.model.Order;
 import net.ebuy.apiapp.model.OrderDetail;
 import net.ebuy.apiapp.model.OrderMid;
 import net.ebuy.apiapp.model.ProductDetail;
 import net.ebuy.apiapp.model.TokenModel;
+import net.ebuy.apiapp.model.request.CommentWrapper;
 import net.ebuy.apiapp.model.request.LoginWrapper;
 import net.ebuy.apiapp.model.request.OrderDetailRequest;
 import net.ebuy.apiapp.model.request.OrderWrapper;
 import net.ebuy.apiapp.model.request.ProductDetailWrapper;
 import net.ebuy.apiapp.model.response.TokenCustomerResponse;
 import net.ebuy.apiapp.service.CustomerService;
+import net.ebuy.apiapp.service.FeedBackService;
 import net.ebuy.apiapp.service.OrderDetailService;
 import net.ebuy.apiapp.service.OrderMidService;
 import net.ebuy.apiapp.service.OrderService;
@@ -79,6 +83,10 @@ public class CustomerController extends BaseController {
 	
 	@Autowired
 	private ApplicationProperties config;
+	
+	
+	@Autowired
+	private FeedBackService feedBackService;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = { MediaType.ALL_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
@@ -287,14 +295,174 @@ public class CustomerController extends BaseController {
 		}
 	// customer add product detail
 	
-	
-	
-	
-	
+	// customer feedback product detail
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@RequestMapping(value = "/{id}/addFeedBackExpress", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> addFeedBackExperss(HttpServletRequest request,
+			@RequestParam (value="id_product_detail") int id_product_detail,
+			@RequestParam (value="express") int express){
+		BaseResponse response = new BaseResponse();
+		response.setStatus(ResponseStatusEnum.SUCCESS);
+		response.setMessage(ResponseStatusEnum.SUCCESS);
+		response.setData(null);
 		
+		try {
+			Customer customer = getCustomer(request);
+			if(customer == null) {
+				response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+				response.setMessage(ResponseStatusEnum.UNAUTHORIZED);
+			}else {
+				
+				FeedBack feedBack = feedBackService.findFeedBackByIdCustomerAndIdProductDetail(customer.getId(), id_product_detail);		
+				if(feedBack== null) {
+					FeedBack newFeedBack = new FeedBack();
+					newFeedBack.setExpress(express);
+					newFeedBack.setId_product_detail(id_product_detail);
+					newFeedBack.setId_customer(customer.getId());
+					newFeedBack.setFeedback(0);
+					newFeedBack.setComment("");
+					newFeedBack.setStatus(true);
+					feedBackService.saveFeedBack(newFeedBack);
+				}else {
+					feedBack.setExpress(express);
+					feedBackService.updateFeedBack(feedBack);
+				}
+			}
+			
+			response.setMessage(ResponseStatusEnum.SUCCESS);
+		}catch (Exception e) {
+			// TODO: handle exception
+			response.setStatus(ResponseStatusEnum.FAIL);
+			response.setMessageError(e.getMessage());
+			e.printStackTrace();
+		}
+		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+	}
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@RequestMapping(value = "/{id}/addFeedBack", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> addFeedBack(HttpServletRequest request,
+			@RequestParam (value="id_product_detail") int id_product_detail,
+			@RequestParam (value="feedback") int feedback){
+		BaseResponse response = new BaseResponse();
+		response.setStatus(ResponseStatusEnum.SUCCESS);
+		response.setMessage(ResponseStatusEnum.SUCCESS);
+		response.setData(null);
 		
+		try {
+			Customer customer = getCustomer(request);
+			if(customer == null) {
+				response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+				response.setMessage(ResponseStatusEnum.UNAUTHORIZED);
+			}else {
+				
+				FeedBack feedBack = feedBackService.findFeedBackByIdCustomerAndIdProductDetail(customer.getId(), id_product_detail);		
+				if(feedBack== null) {
+					FeedBack newFeedBack = new FeedBack();
+					newFeedBack.setFeedback(feedback);
+					newFeedBack.setExpress(0);
+					newFeedBack.setComment("");
+					newFeedBack.setId_product_detail(id_product_detail);
+					newFeedBack.setId_customer(customer.getId());
+					newFeedBack.setStatus(true);
+					feedBackService.saveFeedBack(newFeedBack);
+				}else {
+					feedBack.setFeedback(feedback);
+					feedBackService.updateFeedBack(feedBack);
+				}
+			}
+			
+			response.setMessage(ResponseStatusEnum.SUCCESS);
+		}catch (Exception e) {
+			// TODO: handle exception
+			response.setStatus(ResponseStatusEnum.FAIL);
+			response.setMessageError(e.getMessage());
+			e.printStackTrace();
+		}
+		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+	}
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@RequestMapping(value = "/{id}/addComment", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> addComment(HttpServletRequest request,
+			@RequestParam (value="id_product_detail") int id_product_detail,
+			@RequestBody CommentWrapper commentWrapper){
+		BaseResponse response = new BaseResponse();
+		response.setStatus(ResponseStatusEnum.SUCCESS);
+		response.setMessage(ResponseStatusEnum.SUCCESS);
+		response.setData(null);
 		
+		try {
+			Customer customer = getCustomer(request);
+			if(customer == null) {
+				response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+				response.setMessage(ResponseStatusEnum.UNAUTHORIZED);
+			}else {
+				
+				FeedBack feedBack = feedBackService.findFeedBackByIdCustomerAndIdProductDetail(customer.getId(), id_product_detail);		
+				if(feedBack== null) {
+					FeedBack newFeedBack = new FeedBack();
+					newFeedBack.setComment(commentWrapper.getComment());
+					newFeedBack.setExpress(0);
+					newFeedBack.setFeedback(0);
+					newFeedBack.setId_product_detail(id_product_detail);
+					newFeedBack.setId_customer(customer.getId());
+					newFeedBack.setStatus(true);
+					feedBackService.saveFeedBack(newFeedBack);
+				}else {
+					feedBack.setComment(commentWrapper.getComment());
+					feedBackService.updateFeedBack(feedBack);
+				}
+			}
+			
+			response.setMessage(ResponseStatusEnum.SUCCESS);
+		}catch (Exception e) {
+			// TODO: handle exception
+			response.setStatus(ResponseStatusEnum.FAIL);
+			response.setMessageError(e.getMessage());
+			e.printStackTrace();
+		}
+		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+	}
+	// get express of customer
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@RequestMapping(value = "/{id}/getLike", method = RequestMethod.GET, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> getLike(HttpServletRequest request,
+			@RequestParam (value="id_product_detail") int id_product_detail){
+		BaseResponse response = new BaseResponse();
+		response.setStatus(ResponseStatusEnum.SUCCESS);
+		response.setMessage(ResponseStatusEnum.SUCCESS);
+		response.setData(null);
 		
+		try {
+			Customer customer = getCustomer(request);
+			int var = 0;
+			if(customer == null) {
+				response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+				response.setMessage(ResponseStatusEnum.UNAUTHORIZED);
+			}else {
+				FeedBack feedBack = feedBackService.findFeedBackByIdCustomerAndIdProductDetail(customer.getId(), id_product_detail);		
+				if(feedBack== null) {
+					var = 0;
+				}else {
+					var = feedBack.getExpress();
+				}
+			}
+			int a = var;
+			Object object = new  Object() {
+				public final float type = a;
+			};
+			response.setData(object);
+		}catch (Exception e) {
+			// TODO: handle exception
+			response.setStatus(ResponseStatusEnum.FAIL);
+			response.setMessageError(e.getMessage());
+			e.printStackTrace();
+		}
+		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+	}
 		
 }
 
