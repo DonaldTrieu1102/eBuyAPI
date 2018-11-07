@@ -55,6 +55,7 @@ public class ProductDetailController {
 				Object data = new Object() {
 					public final int id_product_detail = productDetail.getId();
 					public final int id_product = productDetail.getId_product().getId();
+					public final int id_type = productDetail.getId_product().getId_type().getId();
 					public final String name_product_detail = productDetail.getName_product_detail();
 					public final String image_product_detail = productDetail.getImage_product_detail();
 					public final float price_product_detail = productDetail.getPrice_product_detail();
@@ -103,6 +104,7 @@ public class ProductDetailController {
 					Object data = new Object() {
 						public final int id_product_detail = prDetail.getId();
 						public final int id_product = prDetail.getId_product().getId();
+						public final int id_type = prDetail.getId_product().getId_type().getId();
 						public final String name_product_detail = prDetail.getName_product_detail();
 						public final String image_product_detail = prDetail.getImage_product_detail();
 						public final float price_product_detail = prDetail.getPrice_product_detail();

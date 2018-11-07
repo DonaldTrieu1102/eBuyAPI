@@ -50,6 +50,7 @@ public class FeedBackController {
 				Object object = new  Object() {
 					public final int id = feedBack.getId();
 					public final String name_customer = customer.getUsername();
+					public final String avatar = customer.getAvatar();
 					public final int id_product_detail = feedBack.getId_product_detail();
 					public final int express = feedBack.getExpress();
 					public final int feedback = feedBack.getFeedback();
