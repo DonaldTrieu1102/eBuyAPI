@@ -57,7 +57,7 @@ public class CustomerDaoImpl extends AbstractDao<Integer, Customer> implements C
 	public Customer findCustomerByPhoneNumber(String phoneNumber) {
 		return (Customer) sessionFactory.getCurrentSession()
 				.createCriteria(Customer.class)
-                .add(Restrictions.eq("phoneNumber", phoneNumber))
+                .add(Restrictions.eq("phone_number", phoneNumber))
                 .uniqueResult();
 	}
 

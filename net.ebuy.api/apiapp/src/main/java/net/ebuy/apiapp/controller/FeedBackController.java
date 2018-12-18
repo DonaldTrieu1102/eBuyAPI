@@ -67,62 +67,62 @@ public class FeedBackController {
 		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 	}
 	
-	@ResponseBody
-	@RequestMapping(value="/getStar", method = org.springframework.web.bind.annotation.RequestMethod.GET,produces= {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<BaseResponse> getStar(HttpServletRequest request, 
-			@RequestParam(value="id_product_detail") int id_product_detail){
-		BaseResponse response = new BaseResponse();
-		response.setStatus(ResponseStatusEnum.SUCCESS);
-		response.setMessage(ResponseStatusEnum.SUCCESS);
-		response.setData(null);
-		
-		try {
-			List<FeedBack> feedBacks = feedBackService.findListFeedBackByIdProductDetail(id_product_detail);
-			int countStar = 0;
-			for(FeedBack feedBack : feedBacks) {
-				countStar += feedBack.getFeedback();
-			}
-			float count = (float)countStar/feedBacks.size();
-			Object object = new  Object() {
-				public final float countstar = count;
-				public final int countfeedback = feedBacks.size();
-			};
-			response.setData(object);
-		} catch (Exception e) {
-			response.setStatus(ResponseStatusEnum.FAIL);
-			response.setMessageError(e.getMessage());
-			// TODO: handle exception
-		}
-		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
-	}
-	@ResponseBody
-	@RequestMapping(value="/getCountLike", method = org.springframework.web.bind.annotation.RequestMethod.GET,produces= {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<BaseResponse> getCountLike(HttpServletRequest request, 
-			@RequestParam(value="id_product_detail") int id_product_detail){
-		BaseResponse response = new BaseResponse();
-		response.setStatus(ResponseStatusEnum.SUCCESS);
-		response.setMessage(ResponseStatusEnum.SUCCESS);
-		response.setData(null);
-		
-		try {
-			List<FeedBack> feedBacks = feedBackService.findListFeedBackByIdProductDetail(id_product_detail);
-			int countLike = 0;
-			for(FeedBack feedBack : feedBacks) {
-				if(feedBack.getExpress()==1) {
-					countLike += 1;
-				}
-			}
-			int count = countLike;
-			Object object = new  Object() {
-				public final float countlike = count;
-			};
-			response.setData(object);
-		} catch (Exception e) {
-			response.setStatus(ResponseStatusEnum.FAIL);
-			response.setMessageError(e.getMessage());
-			// TODO: handle exception
-		}
-		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
-	}
+//	@ResponseBody
+//	@RequestMapping(value="/getStar", method = org.springframework.web.bind.annotation.RequestMethod.GET,produces= {MediaType.APPLICATION_JSON_VALUE})
+//	public ResponseEntity<BaseResponse> getStar(HttpServletRequest request, 
+//			@RequestParam(value="id_product_detail") int id_product_detail){
+//		BaseResponse response = new BaseResponse();
+//		response.setStatus(ResponseStatusEnum.SUCCESS);
+//		response.setMessage(ResponseStatusEnum.SUCCESS);
+//		response.setData(null);
+//		
+//		try {
+//			List<FeedBack> feedBacks = feedBackService.findListFeedBackByIdProductDetail(id_product_detail);
+//			int countStar = 0;
+//			for(FeedBack feedBack : feedBacks) {
+//				countStar += feedBack.getFeedback();
+//			}
+//			float count = (float)countStar/feedBacks.size();
+//			Object object = new  Object() {
+//				public final float countstar = count;
+//				public final int countfeedback = feedBacks.size();
+//			};
+//			response.setData(object);
+//		} catch (Exception e) {
+//			response.setStatus(ResponseStatusEnum.FAIL);
+//			response.setMessageError(e.getMessage());
+//			// TODO: handle exception
+//		}
+//		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+//	}
+//	@ResponseBody
+//	@RequestMapping(value="/getCountLike", method = org.springframework.web.bind.annotation.RequestMethod.GET,produces= {MediaType.APPLICATION_JSON_VALUE})
+//	public ResponseEntity<BaseResponse> getCountLike(HttpServletRequest request, 
+//			@RequestParam(value="id_product_detail") int id_product_detail){
+//		BaseResponse response = new BaseResponse();
+//		response.setStatus(ResponseStatusEnum.SUCCESS);
+//		response.setMessage(ResponseStatusEnum.SUCCESS);
+//		response.setData(null);
+//		
+//		try {
+//			List<FeedBack> feedBacks = feedBackService.findListFeedBackByIdProductDetail(id_product_detail);
+//			int countLike = 0;
+//			for(FeedBack feedBack : feedBacks) {
+//				if(feedBack.getExpress()==1) {
+//					countLike += 1;
+//				}
+//			}
+//			int count = countLike;
+//			Object object = new  Object() {
+//				public final float countlike = count;
+//			};
+//			response.setData(object);
+//		} catch (Exception e) {
+//			response.setStatus(ResponseStatusEnum.FAIL);
+//			response.setMessageError(e.getMessage());
+//			// TODO: handle exception
+//		}
+//		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+//	}
 
 }

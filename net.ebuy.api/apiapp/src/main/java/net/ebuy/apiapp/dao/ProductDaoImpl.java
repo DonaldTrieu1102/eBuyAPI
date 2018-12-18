@@ -9,6 +9,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import net.ebuy.apiapp.model.Customer;
 import net.ebuy.apiapp.model.Product;
 /**
  * @author Donald Trieu
@@ -81,5 +82,25 @@ public class ProductDaoImpl extends AbstractDao<Integer, Product> implements Pro
 		}
 		return listProductResponse;
 	}
+
+	
+
+	@Override
+	public void savaProduct(Product product) {
+		// TODO Auto-generated method stub
+		sessionFactory.getCurrentSession().saveOrUpdate(product);
+		
+	}
+
+	@Override
+	public Product findNewProduct(List<Product> products, int customerId, String created_at) {
+		// TODO Auto-generated method stub
+		Product product = products.stream()
+				.filter(p->p.getCreatedAtFormatVN().equals(created_at)&&p.getId_customer().getId()==customerId)
+				.findFirst()
+				.orElse(null);
+		return product;
+	}
+	
 
 }

@@ -2,6 +2,7 @@ package net.ebuy.apiapp.dao;
 
 import java.util.List;
 
+import net.ebuy.apiapp.model.Customer;
 import net.ebuy.apiapp.model.Product;
 /**
  * @author Donald Trieu
@@ -15,7 +16,10 @@ public interface ProductDao {
 
 	Product findProductById(int id);
 	
+	void savaProduct(Product product);
 	
+	Product findNewProduct(List<Product> products, int customerId, String created_at);
+		
 	// Tìm một list id_product bằng id_list_product
 	List<Integer> findListIdProductByIdListProduct(List<Product>  listProduct,int idListProduct);
 

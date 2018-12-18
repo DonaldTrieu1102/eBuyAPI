@@ -46,7 +46,7 @@ public class TypeServiceImpl implements TypeService {
 	@Override
 	public Type findTypeById(int id) {
 		// TODO Auto-generated method stub
-		return dao.findById(id);
+		return dao.findTypeById(id);
 	}
 
 	@Override

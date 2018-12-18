@@ -2,8 +2,11 @@ package net.ebuy.apiapp.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,27 +37,41 @@ import net.ebuy.apiapp.helper.ResponseStatusEnum;
 import net.ebuy.apiapp.model.BaseResponse;
 import net.ebuy.apiapp.model.Customer;
 import net.ebuy.apiapp.model.FeedBack;
+import net.ebuy.apiapp.model.ListProduct;
 import net.ebuy.apiapp.model.Order;
 import net.ebuy.apiapp.model.OrderDetail;
 import net.ebuy.apiapp.model.OrderMid;
+import net.ebuy.apiapp.model.Product;
 import net.ebuy.apiapp.model.ProductDetail;
 import net.ebuy.apiapp.model.TokenModel;
+import net.ebuy.apiapp.model.Type;
+import net.ebuy.apiapp.model.TypeProduct;
+import net.ebuy.apiapp.model.request.AddProductDetailWrapper;
+import net.ebuy.apiapp.model.request.ChangePasswordWrapper;
 import net.ebuy.apiapp.model.request.CommentWrapper;
 import net.ebuy.apiapp.model.request.LoginWrapper;
 import net.ebuy.apiapp.model.request.OrderDetailRequest;
 import net.ebuy.apiapp.model.request.OrderWrapper;
 import net.ebuy.apiapp.model.request.ProductDetailWrapper;
+import net.ebuy.apiapp.model.request.RegisterCustomerWrapper;
+import net.ebuy.apiapp.model.request.UpdateProfile;
 import net.ebuy.apiapp.model.response.TokenCustomerResponse;
 import net.ebuy.apiapp.service.CustomerService;
 import net.ebuy.apiapp.service.FeedBackService;
+import net.ebuy.apiapp.service.ListProductService;
 import net.ebuy.apiapp.service.OrderDetailService;
 import net.ebuy.apiapp.service.OrderMidService;
 import net.ebuy.apiapp.service.OrderService;
 import net.ebuy.apiapp.service.ProductDetailService;
+import net.ebuy.apiapp.service.ProductService;
+import net.ebuy.apiapp.service.TypeProductService;
+import net.ebuy.apiapp.service.TypeService;
 import net.ebuy.apiapp.utils.Utils;
 
-
 import org.apache.http.util.EntityUtils;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 /**
  * @author Donald Trieu
@@ -88,6 +105,18 @@ public class CustomerController extends BaseController {
 	@Autowired
 	private FeedBackService feedBackService;
 	
+	@Autowired
+	private ProductService productService;
+	
+	@Autowired
+	private ListProductService listProductService;
+	
+	@Autowired
+	private TypeProductService typeProductService;
+	
+	@Autowired
+	private TypeService typeService;
+		
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = { MediaType.ALL_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
@@ -117,8 +146,118 @@ public class CustomerController extends BaseController {
 		}
 		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 	}
+	// register account
+	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = { MediaType.ALL_VALUE }, produces = {
+			MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> register(HttpServletRequest request,
+			@RequestBody RegisterCustomerWrapper wrapper) {
+		BaseResponse response = new BaseResponse();
+		response.setStatus(ResponseStatusEnum.SUCCESS);
+		response.setMessage(ResponseStatusEnum.SUCCESS);
+		response.setData(null);
+		try {
+			if (wrapper.getPassword().length() < 6) {
+				response.setStatus(ResponseStatusEnum.FAIL);
+				response.setMessageError("Mật khẩu phải lớn hơn 6 ký tự");
+			} else if (wrapper.getUsername().isEmpty()) {
+				response.setStatus(ResponseStatusEnum.FAIL);
+				response.setMessageError("Tên đăng nhập không được bỏ trống");
+			} else if (wrapper.getPhoneNumber().isEmpty()) {
+				response.setStatus(ResponseStatusEnum.FAIL);
+				response.setMessageError("Số điện thoại không hợp lệ");
+			} else {
+				Customer customer = customerService.findCustomerByUserName(wrapper.getUsername());
+				if (customer != null) {
+					response.setStatus(ResponseStatusEnum.FAIL);
+					response.setMessageError("Username đã được sử dụng");
+				} else {
+					customer = customerService.findCustomerByPhoneNumber(wrapper.getPhoneNumber());
+					if (customer != null) {
+						response.setStatus(ResponseStatusEnum.FAIL);
+						response.setMessageError("Số điện thoại đã được sử dụng");
+					} else {
 
-
+						customer = new Customer();
+						customer.setPassword(Utils.encodePassword(wrapper.getPassword()));
+						customer.setUsername(wrapper.getUsername());
+						customer.setPhone_number(wrapper.getPhoneNumber());
+						customer.setStatus(true);
+						customerService.saveCustomer(customer);
+					}
+				}
+			}
+		} catch (Exception ex) {
+			response.setStatus(ResponseStatusEnum.FAIL);
+			response.setMessageError(ex.getMessage());
+		}
+		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+	}
+	// change pass word
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@RequestMapping(value = "/{id}/change-password", method = RequestMethod.POST, consumes = {
+			MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> changePassword(HttpServletRequest request,
+			@RequestBody ChangePasswordWrapper wrapper) {
+		BaseResponse response = new BaseResponse();
+		response.setStatus(ResponseStatusEnum.SUCCESS);
+		response.setMessage(ResponseStatusEnum.SUCCESS);
+		response.setData(null);
+		try {
+			Customer customer = getCustomer(request);
+			if (customer == null) {
+				response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+				response.setMessage(ResponseStatusEnum.UNAUTHORIZED);
+			} else {
+				if (wrapper.getNewPassword().length() < 6) {
+					response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+					response.setMessageError("Mật khẩu mới phải lớn hơn 6 ký tự");
+				} else if (!customer.getPassword().equals(Utils.encodePassword(wrapper.getOldPassword()))) {
+					response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+					response.setMessageError("Mật khẩu cũ không chính xác");
+				} else {
+					customer.setPassword(Utils.encodePassword(wrapper.getNewPassword()));
+					customer.setUpdatedAt(new Date());
+					customerService.saveCustomer(customer);
+				}
+			}
+		} catch (Exception ex) {
+			response.setStatus(ResponseStatusEnum.FAIL);
+			response.setMessageError(ex.getMessage());
+		}
+		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+	}
+	
+	// update_profile
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@RequestMapping(value = "/{id}/update_profile", method = RequestMethod.POST, consumes = {
+			MediaType.ALL_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> updateProfile(HttpServletRequest request,
+			@RequestBody UpdateProfile wrapper) {
+		BaseResponse response = new BaseResponse();
+		response.setStatus(ResponseStatusEnum.SUCCESS);
+		response.setMessage(ResponseStatusEnum.SUCCESS);
+		response.setData(null);
+		try {
+			Customer customer = getCustomer(request);
+			if (customer == null) {
+				response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+				response.setMessage(ResponseStatusEnum.UNAUTHORIZED);
+			} else {
+					customer.setAvatar(wrapper.getAvatar());
+					customer.setUpdatedAt(new Date());
+					customerService.saveCustomer(customer);
+				
+			}
+		} catch (Exception ex) {
+			response.setStatus(ResponseStatusEnum.FAIL);
+			response.setMessageError(ex.getMessage());
+		}
+		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+	}
+	
 	private TokenCustomerResponse LoginCustomer(String username, String password, String authHeader) {
 		try {
 			HttpResponse httpResponse = Request.Post(config.getOauthEndpoint())
@@ -143,7 +282,7 @@ public class CustomerController extends BaseController {
 			tokenCustomerResponse.setName(customer.getFullname());
 			tokenCustomerResponse.setEmail(customer.getEmail());
 			tokenCustomerResponse.setPhoneNumber(customer.getPhone_number());
-			tokenCustomerResponse.setAvatar("");
+			tokenCustomerResponse.setAvatar(customer.getAvatar());
 			tokenCustomerResponse.setAccess_token(data.getAccess_token());
 			tokenCustomerResponse.setToken_type("Bearer");
 			
@@ -154,9 +293,9 @@ public class CustomerController extends BaseController {
 		return null;
 	}
 	// get all customer
-	@RequestMapping(value = "/{id}/getall", method = RequestMethod.GET, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+	@RequestMapping(value = "/getall", method = RequestMethod.GET, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
-	public ResponseEntity<BaseResponse> addOderDetail(HttpServletRequest request) {
+	public ResponseEntity<BaseResponse> getAllCustomer(HttpServletRequest request) {
 		BaseResponse response = new BaseResponse();
 		response.setStatus(ResponseStatusEnum.SUCCESS);
 		response.setMessage(ResponseStatusEnum.SUCCESS);
@@ -233,7 +372,54 @@ public class CustomerController extends BaseController {
 		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 
 	}
-	// order detail with status = 0
+	// get orderdetail with status = 0
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@RequestMapping(value = "/{id}/getAllOrderDetail", method = RequestMethod.GET, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> getOrderDetail(HttpServletRequest request) {
+		BaseResponse response = new BaseResponse();
+		response.setStatus(ResponseStatusEnum.SUCCESS);
+		response.setMessage(ResponseStatusEnum.SUCCESS);
+		response.setData(null);
+		try {
+			Customer customer = getCustomer(request);
+			if(customer == null) {
+				response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+				response.setMessage(ResponseStatusEnum.UNAUTHORIZED);
+			}else {
+				
+				List<OrderDetail> orderDetails = orderDetailService.findAllOrderDetails()
+						.stream()
+						.filter(x-> x.getId_customer()==customer.getId() 
+						&& x.getStatus() == false)
+						.collect(Collectors.toList());
+				List<Object> orderDetailResponse = new ArrayList<>();
+				for(OrderDetail orderDetail: orderDetails) {
+					ProductDetail productDetail = productDetailService.findProductDetailById(orderDetail.getId_product_detail());
+					Object object = new Object() {
+						public final int id = orderDetail.getId();
+						public final int id_product_detail = orderDetail.getId_product_detail();
+						public final int id_customer = orderDetail.getId_customer();
+						public final String name = orderDetail.getName();
+						public final String avatar = productDetail.getImage_product_detail();
+						public final float price = orderDetail.getPrice();
+						public final float quantity = orderDetail.getPrice();
+						public final float amount = orderDetail.getAmount();
+						public final Boolean status = orderDetail.getStatus();
+					};
+					orderDetailResponse.add(object);
+				}
+				response.setData(orderDetailResponse);	
+			}
+		}catch(Exception ex) {
+			response.setStatus(ResponseStatusEnum.FAIL);
+			response.setMessageError(ex.getMessage());
+		}
+		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+	}
+	
+	
+	// add order with status = 0 and status order detail = 1
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@RequestMapping(value = "/{id}/create_order", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
 	@ResponseBody
@@ -254,6 +440,8 @@ public class CustomerController extends BaseController {
 					order.setId_city(wrapper.getId_city());
 					order.setId_district(wrapper.getId_district());
 					order.setId_ward(wrapper.getId_ward());
+					order.setStreetname(wrapper.getStreetname());
+					order.setAddress_full_text(wrapper.getAddress_full_text());
 					order.setCustomer_id(customer.getId());
 					order.setFee(wrapper.getFee());
 					order.setAmount(wrapper.getAmount());
@@ -294,6 +482,68 @@ public class CustomerController extends BaseController {
 
 		}
 	// customer add product detail
+	@PreAuthorize("hasRole('CUSTOMER')")
+	@RequestMapping(value = "/{id}/add_product_detail", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> addproductdetail(HttpServletRequest request,
+			@RequestBody AddProductDetailWrapper wrapper){
+		
+		BaseResponse response = new BaseResponse();
+		response.setStatus(ResponseStatusEnum.SUCCESS);
+		response.setMessage(ResponseStatusEnum.SUCCESS);
+		response.setData(null);
+		try {
+			Customer customer = getCustomer(request);
+			if(customer == null) {
+				response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+				response.setMessage(ResponseStatusEnum.UNAUTHORIZED);
+			}else {
+				Product product = new Product();
+				ListProduct listProduct = listProductService.findListProductById(wrapper.getId_list());
+				Type type = typeService.findTypeById(wrapper.getId_type());
+				TypeProduct typeProduct = typeProductService.findTypeProductById(wrapper.getId_type_product());
+				
+				product.setId_list(listProduct);
+				product.setId_type(type);
+				product.setId_type_product(typeProduct);
+				product.setId_customer(customer);
+				product.setStatus(true);
+				
+				productService.saveProduct(product);
+				
+				List<Product> products = productService.findAllProduct();
+				
+				Product newProduct = productService.findNewProduct(products, customer.getId(), product.getCreatedAtFormatVN());
+				
+				
+				ProductDetail productDetail = new ProductDetail();
+				productDetail.setId_product(newProduct);
+				productDetail.setName_product_detail(wrapper.getName_product());
+				productDetail.setImage_product_detail(wrapper.getImage());
+				productDetail.setPrice_product_detail(wrapper.getPrice());
+				productDetail.setQuantity_product_detail(wrapper.getQuantity());
+				productDetail.setWeigh_product_detail(wrapper.getWeight());
+				productDetail.setProduct_status(wrapper.getProduct_status());
+				productDetail.setDescribe_product_detail(wrapper.getDescribe());
+				productDetail.setMaterial_product_detail(wrapper.getMaterial());
+				productDetail.setTrademark_product_detail(wrapper.getTrademark());
+				productDetail.setStatus(true);
+				
+				productDetailService.saveProductDetail(productDetail);
+				
+			}
+			
+		}catch(Exception ex) {
+			response.setStatus(ResponseStatusEnum.FAIL);
+			response.setMessageError(ex.getMessage());
+			ex.printStackTrace();
+		}
+		
+		
+		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+		
+	}
+	
 	
 	// customer feedback product detail
 	@PreAuthorize("hasRole('CUSTOMER')")

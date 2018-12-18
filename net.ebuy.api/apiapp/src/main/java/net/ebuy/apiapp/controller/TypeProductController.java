@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.ebuy.apiapp.helper.ResponseStatusEnum;
 import net.ebuy.apiapp.model.BaseResponse;
+import net.ebuy.apiapp.model.FeedBack;
 import net.ebuy.apiapp.model.Product;
 import net.ebuy.apiapp.model.ProductDetail;
 import net.ebuy.apiapp.model.Type;
 import net.ebuy.apiapp.model.TypeProduct;
+import net.ebuy.apiapp.service.FeedBackService;
 import net.ebuy.apiapp.service.ProductDetailService;
 import net.ebuy.apiapp.service.ProductService;
 import net.ebuy.apiapp.service.TypeProductService;
@@ -39,6 +41,9 @@ public class TypeProductController {
 	
 	@Autowired
 	private ProductDetailService productDetailService;
+	
+	@Autowired
+	FeedBackService feedBackService;
 	
 	@ResponseBody
 	@RequestMapping(value = "/gettypeProduct",method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -90,6 +95,26 @@ public class TypeProductController {
 					List<Object> listProductResponse = new ArrayList<>();
 					for(ProductDetail productDetail : listProductDetailResponse) {
 						
+						List<FeedBack> feedBacks = feedBackService.findListFeedBackByIdProductDetail(productDetail.getId());
+						int countStar = 0;
+						int countLike = 0;
+						float count1;
+						int count2;
+						if(feedBacks.isEmpty()) {
+							count1 = 0f;
+							count2 = 0;
+						}
+						else {
+							for(FeedBack feedBack : feedBacks) {
+								countStar += feedBack.getFeedback();
+								if(feedBack.getExpress()==1) {
+									countLike += 1;
+								}
+							}
+							count1 = (float)countStar/feedBacks.size();
+							count2 = countLike;
+						}
+						
 						Object data = new Object() {
 							public final int id_product_detail = productDetail.getId();
 							public final int id_product = productDetail.getId_product().getId();
@@ -105,6 +130,9 @@ public class TypeProductController {
 							public final String material_product_detail = productDetail.getMaterial_product_detail();
 							public final String trademark_product_detail = productDetail.getTrademark_product_detail();
 							public final String address_from = productDetail.getAddress_from_product_detail();
+							public final float countstar = count1;
+							public final int countfeedback = feedBacks.size();
+							public final float countlike = count2;
 						};
 						listProductResponse.add(data);
 					}

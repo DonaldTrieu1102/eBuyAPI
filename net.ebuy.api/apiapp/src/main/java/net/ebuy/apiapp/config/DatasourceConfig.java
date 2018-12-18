@@ -52,10 +52,6 @@ public class DatasourceConfig {
 //	        dataSource.setUsername("admin_trieu");
 //	        dataSource.setPassword("admin_trieu");
 //	        return dataSource;
-//	        dataSource.setUrl("jdbc:mysql://locathost:3306/ebuy?characterEncoding=UTF-8");
-//	        dataSource.setUsername("root");
-//	        dataSource.setPassword("root");
-//	        return dataSource; 
 	        dataSource.setUrl("jdbc:mysql://localhost:3306/ebuy?characterEncoding=UTF-8");
 	        dataSource.setUsername("root");
 	        dataSource.setPassword("root");

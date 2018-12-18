@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.ebuy.apiapp.dao.ProductDao;
+import net.ebuy.apiapp.model.Customer;
 import net.ebuy.apiapp.model.Product;
 /**
  * @author Donald Trieu
@@ -55,4 +56,18 @@ public class ProductServiceImpl implements ProductService{
 		return dao.findListIdProductByIdTypeProduct(listProduct, idTypeProduct);
 	}
 
+	
+	@Override
+	public void saveProduct(Product product) {
+		// TODO Auto-generated method stub
+		dao.savaProduct(product);
+	}
+
+	@Override
+	public Product findNewProduct(List<Product> products, int customerId, String created_at) {
+		// TODO Auto-generated method stub
+		return dao.findNewProduct(products, customerId, created_at);
+	}
+
+	
 }

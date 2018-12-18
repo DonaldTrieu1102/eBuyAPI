@@ -37,6 +37,8 @@ public class Product extends BaseModel {
 	@ManyToOne
 	@JoinColumn(name="id_customer")
 	private Customer id_customer;
+	
+	private Boolean status;
 
 	public int getId() {
 		return id;
@@ -77,6 +79,14 @@ public class Product extends BaseModel {
 	public void setId_customer(Customer id_customer) {
 		this.id_customer = id_customer;
 	}
-	
 
+	public Boolean getStatus() {
+		return status;
+	}
+
+	public void setStatus(Boolean status) {
+		this.status = status;
+	}
+
+	
 }

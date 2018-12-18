@@ -30,6 +30,12 @@ public class Order extends BaseModel{
 	@Column(name="id_ward")
 	private int id_ward;
 	
+	@Column(name="streetname")
+	private String streetname;
+	
+	@Column(name="address_full_text")
+	private String address_full_text;
+	
 	@Column(name ="fee_tranfer")
 	private float fee;
 	
@@ -61,6 +67,19 @@ public class Order extends BaseModel{
 	}
 	public void setId_ward(int id_ward) {
 		this.id_ward = id_ward;
+	}
+	
+	public String getStreetname() {
+		return streetname;
+	}
+	public void setStreetname(String streetname) {
+		this.streetname = streetname;
+	}
+	public String getAddress_full_text() {
+		return address_full_text;
+	}
+	public void setAddress_full_text(String address_full_text) {
+		this.address_full_text = address_full_text;
 	}
 	public int getCustomer_id() {
 		return customer_id;

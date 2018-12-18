@@ -7,6 +7,7 @@ net\ebuy\apiapp\model\TokenModel.class
 net\ebuy\apiapp\model\Order.class
 net\ebuy\apiapp\service\OrderService.class
 net\ebuy\apiapp\service\impl\AppUserDetailsService.class
+net\ebuy\apiapp\controller\CustomerController$3.class
 net\ebuy\apiapp\dao\WardDaoImpl.class
 net\ebuy\apiapp\dao\OrderDetailDaoImpl.class
 net\ebuy\apiapp\model\ListProduct.class
@@ -56,7 +57,6 @@ net\ebuy\apiapp\controller\ListProductController$2.class
 net\ebuy\apiapp\model\response\BaseModelResponse.class
 net\ebuy\apiapp\config\AuthorizationServerConfig.class
 net\ebuy\apiapp\dao\CityDaoImpl.class
-net\ebuy\apiapp\controller\FeedBackController$2.class
 net\ebuy\apiapp\dao\TypeProductDaoImpl.class
 net\ebuy\apiapp\dao\ListProductDaoImpl.class
 net\ebuy\apiapp\service\CityService.class
@@ -72,7 +72,6 @@ net\ebuy\apiapp\handle\BasicInterceptor.class
 net\ebuy\apiapp\controller\ConfigController.class
 net\ebuy\apiapp\dao\AbstractDao.class
 net\ebuy\apiapp\controller\TypeProductController$1.class
-net\ebuy\apiapp\controller\FeedBackController$3.class
 net\ebuy\apiapp\controller\ProductDetailController$1.class
 net\ebuy\apiapp\dao\WardDao.class
 net\ebuy\apiapp\model\response\BaseResponse.class

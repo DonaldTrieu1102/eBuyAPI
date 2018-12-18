@@ -2,6 +2,7 @@ package net.ebuy.apiapp.service;
 
 import java.util.List;
 
+import net.ebuy.apiapp.model.Customer;
 import net.ebuy.apiapp.model.Product;
 /**
  * @author Donald Trieu
@@ -14,6 +15,10 @@ public interface ProductService {
 	List<Product> findAllProduct();
 
 	Product findProductById(int id);
+	
+	void saveProduct(Product product);
+	
+	Product findNewProduct(List<Product> products, int customerId, String created_at);
 	
 	List<Integer> findListIdProductByIdListProduct(List<Product>  listProduct,int idListProduct);
 

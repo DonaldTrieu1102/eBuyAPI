@@ -2,6 +2,7 @@ package net.ebuy.apiapp.model.request;
 
 import java.util.List;
 
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author Donald Trieu
@@ -18,6 +19,12 @@ public class OrderWrapper {
 	
 	@JsonProperty("id_ward")
 	private int id_ward;
+	
+	@JsonProperty("streetname")
+	private String streetname;
+	
+	@JsonProperty("address_full_text")
+	private String address_full_text;
 	
 	@JsonProperty("fee")
 	private float fee;
@@ -53,6 +60,22 @@ public class OrderWrapper {
 
 	public void setId_ward(int id_ward) {
 		this.id_ward = id_ward;
+	}
+	
+	public String getStreetname() {
+		return streetname;
+	}
+
+	public void setStreetname(String streetname) {
+		this.streetname = streetname;
+	}
+
+	public String getAddress_full_text() {
+		return address_full_text;
+	}
+
+	public void setAddress_full_text(String address_full_text) {
+		this.address_full_text = address_full_text;
 	}
 
 	public float getFee() {
