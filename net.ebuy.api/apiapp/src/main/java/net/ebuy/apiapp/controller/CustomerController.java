@@ -307,8 +307,11 @@ public class CustomerController extends BaseController {
 			for(Customer customer: customers) {
 				Object object = new Object() {
 					public final int id_customer = customer.getId();
-					public final String name = customer.getUsername();
 					public final String avatar = customer.getAvatar();
+					public final String usename = customer.getUsername();
+					public final String address = customer.getAddress_full_text() +" " + customer.getStreetname() +
+							", " + customer.getId_ward().getName() + ", " + customer.getId_district().getName()+
+							", " + customer.getId_city().getName();
 				};
 				customerResponse.add(object);
 			}
@@ -321,6 +324,33 @@ public class CustomerController extends BaseController {
 		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 
 	}
+	// get all customer
+		@RequestMapping(value = "/getCustomerById", method = RequestMethod.GET, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+		@ResponseBody
+		public ResponseEntity<BaseResponse> getCustomerById(HttpServletRequest request, @RequestParam (value="id") int id) {
+			BaseResponse response = new BaseResponse();
+			response.setStatus(ResponseStatusEnum.SUCCESS);
+			response.setMessage(ResponseStatusEnum.SUCCESS);
+			response.setData(null);
+			try {
+				
+				Customer customer = customerService.findCustomerById(id);
+				Object object = new Object() {
+					public final int id_customer = customer.getId();
+					public final String avatar = customer.getAvatar();
+					public final String usename = customer.getUsername();
+					public final String address = customer.getAddress_full_text() +" " + customer.getStreetname() +
+							", " + customer.getId_ward().getName() + ", " + customer.getId_district().getName()+
+							", " + customer.getId_city().getName();
+				};
+				response.setData(object);			
+			}catch(Exception ex) {
+				response.setStatus(ResponseStatusEnum.FAIL);
+				response.setMessageError(ex.getMessage());
+			}
+			return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+		}
+	
 	// order detail with status = 0
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@RequestMapping(value = "/{id}/add_orderDetail", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
@@ -713,6 +743,8 @@ public class CustomerController extends BaseController {
 		}
 		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 	}
+	// get ordered of customer
+	
 		
 }
 
