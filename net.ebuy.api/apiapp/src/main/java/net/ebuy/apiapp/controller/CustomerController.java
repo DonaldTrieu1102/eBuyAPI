@@ -56,7 +56,9 @@ import net.ebuy.apiapp.model.request.ProductDetailWrapper;
 import net.ebuy.apiapp.model.request.RegisterCustomerWrapper;
 import net.ebuy.apiapp.model.request.UpdateProfile;
 import net.ebuy.apiapp.model.response.TokenCustomerResponse;
+import net.ebuy.apiapp.service.CityService;
 import net.ebuy.apiapp.service.CustomerService;
+import net.ebuy.apiapp.service.DistrictService;
 import net.ebuy.apiapp.service.FeedBackService;
 import net.ebuy.apiapp.service.ListProductService;
 import net.ebuy.apiapp.service.OrderDetailService;
@@ -66,6 +68,7 @@ import net.ebuy.apiapp.service.ProductDetailService;
 import net.ebuy.apiapp.service.ProductService;
 import net.ebuy.apiapp.service.TypeProductService;
 import net.ebuy.apiapp.service.TypeService;
+import net.ebuy.apiapp.service.WardService;
 import net.ebuy.apiapp.utils.Utils;
 
 import org.apache.http.util.EntityUtils;
@@ -117,6 +120,15 @@ public class CustomerController extends BaseController {
 	
 	@Autowired
 	private TypeService typeService;
+	
+	@Autowired
+	private CityService cityService;
+	
+	@Autowired
+	private DistrictService districtService;
+	
+	@Autowired
+	private WardService wardService;
 		
 	@RequestMapping(value = "/login", method = RequestMethod.POST, consumes = { MediaType.ALL_VALUE }, produces = {
 			MediaType.APPLICATION_JSON_VALUE })
@@ -448,8 +460,6 @@ public class CustomerController extends BaseController {
 		}
 		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 	}
-	
-	
 	// add order with status = 0 and status order detail = 1
 	@PreAuthorize("hasRole('CUSTOMER')")
 	@RequestMapping(value = "/{id}/create_order", method = RequestMethod.POST, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
@@ -554,34 +564,45 @@ public class CustomerController extends BaseController {
 				}else {
 					List<Product> products = productService.findAllProduct();
 					List<Product> idProduct = productService.findListIdProductByIdCustomer(products, customer.getId());
+					List<ProductDetail> productDetails = productDetailService.findAllProductDetail();
 					List<ProductDetail> productDetailResponse = new ArrayList<>();
 					for(Product p: idProduct) {
-						productDetailResponse.add(productDetailService.findProductDetailByIdProduct(p));
+						productDetailResponse.addAll(productDetailService.findListProductDetailByIdProduct(productDetails, p.getId()));
 					}
 					List<OrderDetail> orderDetails = new ArrayList<>();
 					List<OrderDetail> orderDetailsAll = orderDetailService.findAllOrderDetails();
 					for(ProductDetail productDetail: productDetailResponse) {
-						orderDetails.add(orderDetailService.findOrderDetailsByIdProductDetail(orderDetailsAll, productDetail.getId()));
+						orderDetails.addAll(orderDetailService.findOrderDetailsByIdProductDetail(orderDetailsAll, productDetail.getId()));
 					}
 					List<Object> orderDetailResponse = new ArrayList<>();
+					List<OrderMid> orderMids = orderMidService.findAllOrderMid();
 					for(OrderDetail orderDetail: orderDetails) {
 						ProductDetail productDetail = productDetailService.findProductDetailById(orderDetail.getId_product_detail());
-						Customer customerOrdered = customerService.findCustomerById(orderDetail.getId()); 
-						Object object = new Object() {
-							public final int id = orderDetail.getId();
-							public final int id_product_detail = orderDetail.getId_product_detail();
-							public final int id_customer = customerOrdered.getId();
-							public final String name = orderDetail.getName();
-							public final String avatar = productDetail.getImage_product_detail();
-							public final String address = customerOrdered.getAddress_full_text() +" " + customerOrdered.getStreetname() +
-									", " + customerOrdered.getId_ward().getName() + ", " + customerOrdered.getId_district().getName()+
-									", " + customerOrdered.getId_city().getName();
-							public final float price = orderDetail.getPrice();
-							public final float quantity = orderDetail.getPrice();
-							public final float amount = orderDetail.getAmount();
-							public final Boolean status = orderDetail.getStatus();
-						};
-						orderDetailResponse.add(object);
+						Customer customerOrdered = customerService.findCustomerById(orderDetail.getId_customer());
+						List<OrderMid> orderMid = orderMidService.findOrderMidByIdOrderDetail(orderMids, orderDetail.getId());
+						List<Order> orderResponse = new ArrayList<>();
+						List<Order> orders = orderService.findAllOrders();
+						for(OrderMid o: orderMid) {
+							orderResponse.add(orderService.findOrderByCustomerIdAndOrderId(orders, o.getId_order(), customerOrdered.getId())); 
+						}
+						for(Order o : orderResponse) {
+							Object object = new Object() {
+								public final int id = orderDetail.getId();
+								public final int id_product_detail = orderDetail.getId_product_detail();
+								public final int id_customer = customerOrdered.getId();
+								public final String name_customer = customerOrdered.getFullname();
+								public final String name = orderDetail.getName();
+								public final String avatar = productDetail.getImage_product_detail();
+								public final String address = o.getAddress_full_text() +" " + o.getStreetname() +
+										", " + wardService.findWardByIdWard(o.getId_ward()).getName() + ", " + districtService.findDistrictById(o.getId_district()).getName()+
+										", " + cityService.findCityByIdCity(o.getId_city()).getName();
+								public final float price = orderDetail.getPrice();
+								public final float quantity = orderDetail.getPrice();
+								public final float amount = orderDetail.getAmount();
+								public final Boolean status = orderDetail.getStatus();
+							};
+							orderDetailResponse.add(object);
+						}
 					}
 					response.setData(orderDetailResponse);	
 				}

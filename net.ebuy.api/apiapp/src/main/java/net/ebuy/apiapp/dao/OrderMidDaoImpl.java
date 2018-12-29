@@ -1,9 +1,11 @@
 package net.ebuy.apiapp.dao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -51,5 +53,15 @@ public class OrderMidDaoImpl extends AbstractDao<Integer, OrderMid> implements O
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(OrderMid.class);
 		return criteria.list();
 	}
+
+	@Override
+	public List<OrderMid> findOrderMidByIdOrderDetail(List<OrderMid> orderMids, int idOrderDetail) {
+		// TODO Auto-generated method stub
+		List<OrderMid> orderMidResponse = orderMids.stream().filter(p->p.getId_order_detail()== idOrderDetail)
+				.collect(Collectors.toList());
+		return orderMidResponse;
+	}
+
+	
 
 }

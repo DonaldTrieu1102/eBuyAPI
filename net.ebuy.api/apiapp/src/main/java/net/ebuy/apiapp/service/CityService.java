@@ -20,4 +20,6 @@ public interface CityService {
 	
 	List<City> findAllCity();
 
+	City findCityByIdCity(int cityId);
+
 }

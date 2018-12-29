@@ -49,4 +49,10 @@ public class CityServiceImpl implements CityService {
 		return dao.findAllCity();
 	}
 
+	@Override
+	public City findCityByIdCity(int cityId) {
+		// TODO Auto-generated method stub
+		return dao.findCityByIdCity(cityId);
+	}
+
 }

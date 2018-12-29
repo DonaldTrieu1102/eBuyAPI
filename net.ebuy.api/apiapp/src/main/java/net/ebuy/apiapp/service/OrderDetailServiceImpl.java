@@ -74,11 +74,12 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	}
 
 	@Override
-	public OrderDetail findOrderDetailsByIdProductDetail(List<OrderDetail> orderDetails, int idproductDetail) {
+	public List<OrderDetail> findOrderDetailsByIdProductDetail(List<OrderDetail> orderDetails, int idproductDetail) {
 		// TODO Auto-generated method stub
 		return dao.findOrderDetailsByIdProductDetail(orderDetails, idproductDetail);
 	}
 
+	
 
 
 }

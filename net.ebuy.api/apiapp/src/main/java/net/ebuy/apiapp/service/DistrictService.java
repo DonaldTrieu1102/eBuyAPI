@@ -16,4 +16,6 @@ public interface DistrictService {
 	
 	List<District> findAllDistrictByIdCity(List<District> districts,int idCity);
 
+	District findDistrictById(int districtId);
+
 }

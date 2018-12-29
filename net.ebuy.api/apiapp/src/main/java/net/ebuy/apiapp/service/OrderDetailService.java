@@ -27,6 +27,6 @@ public interface OrderDetailService {
 	
 	OrderDetail findOrderDetailById(int orderDetailId);
 	
-	OrderDetail findOrderDetailsByIdProductDetail(List<OrderDetail> orderDetails,int idproductDetail);
+	List<OrderDetail> findOrderDetailsByIdProductDetail(List<OrderDetail> orderDetails,int idproductDetail);
 
 }

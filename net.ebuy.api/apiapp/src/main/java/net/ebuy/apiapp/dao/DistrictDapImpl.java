@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -49,6 +50,13 @@ public class DistrictDapImpl extends AbstractDao<Integer, District> implements D
 				.filter(p-> p.getId_city().getId()==idCity)
 				.collect(Collectors.toList());
 		return listDistricts;
+	}
+
+	@Override
+	public District findDistrictById(int districtId) {
+		// TODO Auto-generated method stub
+		return (District)sessionFactory.getCurrentSession().createCriteria(District.class)
+				.add(Restrictions.eq("id", districtId)).uniqueResult();
 	}
 
 }

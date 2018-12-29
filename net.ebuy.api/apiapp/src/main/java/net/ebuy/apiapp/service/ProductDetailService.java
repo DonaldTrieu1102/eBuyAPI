@@ -25,7 +25,7 @@ public interface ProductDetailService {
 	
 	List<ProductDetail> findListProductDetailByIdProduct(List<ProductDetail> list,int idProduct);
 	
-	ProductDetail findProductDetailByIdProduct(Product product);
+//	ProductDetail findProductDetailByIdProduct(Product product);
 
 
 }

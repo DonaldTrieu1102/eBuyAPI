@@ -22,5 +22,8 @@ public interface OrderMidDao {
 	
 	List<OrderMid> findAllOrderMid();
 	
+	List<OrderMid> findOrderMidByIdOrderDetail(List<OrderMid> orderMids,int idOrderDetail);
+
+	
 
 }

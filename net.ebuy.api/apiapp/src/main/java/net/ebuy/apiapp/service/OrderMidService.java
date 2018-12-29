@@ -20,5 +20,7 @@ public interface OrderMidService {
 	void createOrUpdate(OrderMid entity);
 	
 	List<OrderMid> findAllOrderMid();
-	
+
+	List<OrderMid> findOrderMidByIdOrderDetail(List<OrderMid> orderMids,int idOrderDetail);
+
 }

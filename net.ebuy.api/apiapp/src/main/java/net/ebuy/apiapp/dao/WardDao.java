@@ -15,4 +15,6 @@ public interface WardDao {
 	
 	List<Ward> findAllWardByIdDistrict(List<Ward> wards,int idDistrict);
 
+	Ward findWardByIdWard(int wardId);
+
 }

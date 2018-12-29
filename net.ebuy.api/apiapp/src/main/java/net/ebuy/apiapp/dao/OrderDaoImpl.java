@@ -83,4 +83,16 @@ public class OrderDaoImpl extends AbstractDao<Integer, Order> implements OrderDa
 		
 		return order;		
 	}
+
+	@Override
+	public Order findOrderByCustomerIdAndOrderId(List<Order> orders,int orderId, int customerId) {
+		// TODO Auto-generated method stub
+		Order order = orders.stream()
+				.filter(p -> p.getId()==orderId&&p.getCustomer_id() == customerId)
+				.findFirst()
+				.orElse(null);
+		return order;
+	}
+
+
 }

@@ -25,7 +25,7 @@ public interface ProductDetailDao {
 	
 	List<ProductDetail> findListProductDetailByIdProduct(List<ProductDetail> list,int idProduct);
 	
-	ProductDetail findProductDetailByIdProduct(Product product);
+//	List<ProductDetail> findProductDetailByIdProduct(Product product);
 
 
 }

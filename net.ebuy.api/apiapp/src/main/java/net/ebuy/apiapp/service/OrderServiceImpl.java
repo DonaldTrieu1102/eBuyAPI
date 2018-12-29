@@ -72,4 +72,10 @@ public class OrderServiceImpl implements OrderService {
 		return dao.findNewOrder(orders, customerId, created_at);
 	}
 
+	@Override
+	public Order findOrderByCustomerIdAndOrderId(List<Order> orders, int orderId, int customerId) {
+		// TODO Auto-generated method stub
+		return dao.findOrderByCustomerIdAndOrderId(orders, orderId, customerId);
+	}
+
 }

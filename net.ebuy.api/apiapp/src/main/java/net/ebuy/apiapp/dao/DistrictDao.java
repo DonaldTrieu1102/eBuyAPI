@@ -16,4 +16,5 @@ public interface DistrictDao {
 	
 	List<District> findAllDistrictByIdCity(List<District> districts,int idCity);
 
+	District findDistrictById(int districtId);
 }

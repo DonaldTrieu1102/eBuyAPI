@@ -77,13 +77,19 @@ public class ProductDetailDaoImpl extends AbstractDao<Integer, ProductDetail> im
 		
 	}
 
-	@Override
-	public ProductDetail findProductDetailByIdProduct(Product product) {
-		// TODO Auto-generated method stub
-		return (ProductDetail)sessionFactory.getCurrentSession().createCriteria(ProductDetail.class)
-				.add(Restrictions.eq("id_product", product))
-				.uniqueResult();
-	}
+//	@Override
+//	public List<ProductDetail> findProductDetailByIdProduct(Product product) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
+//	@Override
+//	public ProductDetail findProductDetailByIdProduct(Product product) {
+//		// TODO Auto-generated method stub
+//		return (ProductDetail)sessionFactory.getCurrentSession().createCriteria(ProductDetail.class)
+//				.add(Restrictions.eq("id_product", product))
+//				.uniqueResult();
+//	}
 
 	
 }

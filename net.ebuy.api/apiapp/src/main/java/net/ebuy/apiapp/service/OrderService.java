@@ -28,4 +28,7 @@ public interface OrderService {
 	
 	Order findOrderById(int orderId);
 	
+	Order findOrderByCustomerIdAndOrderId(List<Order> orders,int orderId,int customerId);
+
+	
 }

@@ -87,14 +87,14 @@ public class OrderDetailDaoImpl extends AbstractDao<Integer, OrderDetail> implem
 //	}
 
 	@Override
-	public OrderDetail findOrderDetailsByIdProductDetail(List<OrderDetail> orderDetails, int idproductDetail) {
+	public List<OrderDetail> findOrderDetailsByIdProductDetail(List<OrderDetail> orderDetails, int idproductDetail) {
 		// TODO Auto-generated method stub
-		OrderDetail listResponse = orderDetails.stream()
+		List<OrderDetail> listResponse = orderDetails.stream()
 				.filter(p->p.getId_product_detail()==idproductDetail&&p.getStatus()==true)
-				.findAny()
-				.orElse(null);
+				.collect(Collectors.toList());
 		return listResponse;
 	}
+
 
 	
 

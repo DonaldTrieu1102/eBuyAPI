@@ -44,4 +44,10 @@ public class WardServiceImpl implements WardService{
 		return dao.findAllWard();
 	}
 
+	@Override
+	public Ward findWardByIdWard(int wardId) {
+		// TODO Auto-generated method stub
+		return dao.findWardByIdWard(wardId);
+	}
+
 }

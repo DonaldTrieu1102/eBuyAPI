@@ -16,5 +16,8 @@ public interface CityDao {
 	void deleteCity(Integer cityId);
 	
 	List<City> findAllCity();
+	
+	City findCityByIdCity(int cityId);
+
 
 }

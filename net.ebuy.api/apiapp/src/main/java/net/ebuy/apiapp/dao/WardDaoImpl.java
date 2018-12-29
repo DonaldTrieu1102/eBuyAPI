@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -50,6 +51,13 @@ public class WardDaoImpl extends AbstractDao<Integer, Ward> implements WardDao{
 				.filter(p->p.getId_district().getId()==idDistrict)
 				.collect(Collectors.toList());
 		return listWards;
+	}
+
+	@Override
+	public Ward findWardByIdWard(int wardId) {
+		// TODO Auto-generated method stub
+		return (Ward)sessionFactory.getCurrentSession().createCriteria(Ward.class)
+				.add(Restrictions.eq("id", wardId)).uniqueResult();
 	}
 	
 

@@ -59,4 +59,12 @@ public class OrderMidServiceImpl implements OrderMidService {
 		return dao.findAllOrderMid();
 	}
 
+	@Override
+	public List<OrderMid> findOrderMidByIdOrderDetail(List<OrderMid> orderMids, int idOrderDetail) {
+		// TODO Auto-generated method stub
+		return dao.findOrderMidByIdOrderDetail(orderMids, idOrderDetail);
+	}
+
+	
+
 }

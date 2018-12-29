@@ -62,10 +62,10 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 		dao.updateProductDetail(productDetail);
 	}
 
-	@Override
-	public ProductDetail findProductDetailByIdProduct(Product product) {
-		// TODO Auto-generated method stub
-		return dao.findProductDetailByIdProduct(product);
-	}
+//	@Override
+//	public ProductDetail findProductDetailByIdProduct(Product product) {
+//		// TODO Auto-generated method stub
+//		return dao.findProductDetailByIdProduct(product);
+//	}
 
 }

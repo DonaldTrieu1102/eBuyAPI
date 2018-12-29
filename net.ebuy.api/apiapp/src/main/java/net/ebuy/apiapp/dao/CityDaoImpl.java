@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -42,6 +43,13 @@ public class CityDaoImpl extends AbstractDao<Integer, City> implements CityDao {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(City.class);
 		List<City> city = criteria.list();
 		return city;
+	}
+
+	@Override
+	public City findCityByIdCity(int cityId) {
+		// TODO Auto-generated method stub
+		return (City) sessionFactory.getCurrentSession().createCriteria(City.class)
+				.add(Restrictions.eq("id", cityId)).uniqueResult();
 	}
 
 

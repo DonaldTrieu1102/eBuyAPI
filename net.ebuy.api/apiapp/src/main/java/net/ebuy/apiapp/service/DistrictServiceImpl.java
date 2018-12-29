@@ -46,4 +46,10 @@ public class DistrictServiceImpl implements DistrictService {
 		return dao.findAllDistrictByIdCity(districts, idCity);
 	}
 
+	@Override
+	public District findDistrictById(int districtId) {
+		// TODO Auto-generated method stub
+		return dao.findDistrictById(districtId);
+	}
+
 }
