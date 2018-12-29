@@ -2,6 +2,7 @@ package net.ebuy.apiapp.dao;
 
 import java.util.List;
 
+import net.ebuy.apiapp.model.Product;
 import net.ebuy.apiapp.model.ProductDetail;
 /**
  * @author Donald Trieu
@@ -23,5 +24,8 @@ public interface ProductDetailDao {
 	ProductDetail findProductDetailById(int idProductDetail);
 	
 	List<ProductDetail> findListProductDetailByIdProduct(List<ProductDetail> list,int idProduct);
+	
+	ProductDetail findProductDetailByIdProduct(Product product);
+
 
 }

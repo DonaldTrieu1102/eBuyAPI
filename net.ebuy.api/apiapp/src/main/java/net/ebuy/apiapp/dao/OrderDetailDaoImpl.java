@@ -1,6 +1,7 @@
 package net.ebuy.apiapp.dao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -85,6 +86,17 @@ public class OrderDetailDaoImpl extends AbstractDao<Integer, OrderDetail> implem
 //		return null;
 //	}
 
+	@Override
+	public OrderDetail findOrderDetailsByIdProductDetail(List<OrderDetail> orderDetails, int idproductDetail) {
+		// TODO Auto-generated method stub
+		OrderDetail listResponse = orderDetails.stream()
+				.filter(p->p.getId_product_detail()==idproductDetail&&p.getStatus()==true)
+				.findAny()
+				.orElse(null);
+		return listResponse;
+	}
+
+	
 
 
 	

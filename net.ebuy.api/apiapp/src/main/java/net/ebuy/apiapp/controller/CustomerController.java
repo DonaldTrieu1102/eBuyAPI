@@ -77,6 +77,7 @@ import org.joda.time.format.DateTimeFormatter;
  * @author Donald Trieu
  *
  */
+@Controller
 @SuppressWarnings("unused")
 @RestController
 @RequestMapping("/api/customers")
@@ -324,32 +325,32 @@ public class CustomerController extends BaseController {
 		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 
 	}
-	// get all customer
-		@RequestMapping(value = "/getCustomerById", method = RequestMethod.GET, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
-		@ResponseBody
-		public ResponseEntity<BaseResponse> getCustomerById(HttpServletRequest request, @RequestParam (value="id") int id) {
-			BaseResponse response = new BaseResponse();
-			response.setStatus(ResponseStatusEnum.SUCCESS);
-			response.setMessage(ResponseStatusEnum.SUCCESS);
-			response.setData(null);
-			try {
-				
-				Customer customer = customerService.findCustomerById(id);
-				Object object = new Object() {
-					public final int id_customer = customer.getId();
-					public final String avatar = customer.getAvatar();
-					public final String usename = customer.getUsername();
-					public final String address = customer.getAddress_full_text() +" " + customer.getStreetname() +
-							", " + customer.getId_ward().getName() + ", " + customer.getId_district().getName()+
-							", " + customer.getId_city().getName();
-				};
-				response.setData(object);			
-			}catch(Exception ex) {
-				response.setStatus(ResponseStatusEnum.FAIL);
-				response.setMessageError(ex.getMessage());
-			}
-			return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+	// get customer by id
+	@RequestMapping(value = "/getCustomerById", method = RequestMethod.GET, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+	@ResponseBody
+	public ResponseEntity<BaseResponse> getCustomerById(HttpServletRequest request, @RequestParam (value="id") int id) {
+		BaseResponse response = new BaseResponse();
+		response.setStatus(ResponseStatusEnum.SUCCESS);
+		response.setMessage(ResponseStatusEnum.SUCCESS);
+		response.setData(null);
+		try {
+			
+			Customer customer = customerService.findCustomerById(id);
+			Object object = new Object() {
+				public final int id_customer = customer.getId();
+				public final String avatar = customer.getAvatar();
+				public final String usename = customer.getUsername();
+				public final String address = customer.getAddress_full_text() +" " + customer.getStreetname() +
+						", " + customer.getId_ward().getName() + ", " + customer.getId_district().getName()+
+						", " + customer.getId_city().getName();
+			};
+			response.setData(object);			
+		}catch(Exception ex) {
+			response.setStatus(ResponseStatusEnum.FAIL);
+			response.setMessageError(ex.getMessage());
 		}
+		return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+	}
 	
 	// order detail with status = 0
 	@PreAuthorize("hasRole('CUSTOMER')")
@@ -510,6 +511,85 @@ public class CustomerController extends BaseController {
 			
 			return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 
+		}
+	// delete orderDetail by id
+		@PreAuthorize("hasRole('CUSTOMER')")
+		@RequestMapping(value = "/{id}/deleteOrderDetailById", method = RequestMethod.GET, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+		@ResponseBody
+		public ResponseEntity<BaseResponse> deleteOrderDetail(HttpServletRequest request,
+				@RequestParam (value="idOrderDetail") int idOrderDetail) {
+			BaseResponse response = new BaseResponse();
+			response.setStatus(ResponseStatusEnum.SUCCESS);
+			response.setMessage(ResponseStatusEnum.SUCCESS);
+			response.setData(null);
+			try {
+				Customer customer = getCustomer(request);
+				if(customer == null) {
+					response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+					response.setMessage(ResponseStatusEnum.UNAUTHORIZED);
+				}else {
+					OrderDetail orderDetail = orderDetailService.findOrderDetailById(idOrderDetail);
+					orderDetailService.delete(orderDetail);
+				}
+			}catch(Exception ex) {
+				response.setStatus(ResponseStatusEnum.FAIL);
+				response.setMessageError(ex.getMessage());
+			}
+			return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
+		}
+		// getAll order of customer sale
+		@PreAuthorize("hasRole('CUSTOMER')")
+		@RequestMapping(value = "/{id}/getAllOrderDetailOfCustomerSale", method = RequestMethod.GET, consumes = {MediaType.ALL_VALUE }, produces = {MediaType.APPLICATION_JSON_VALUE })
+		@ResponseBody
+		public ResponseEntity<BaseResponse> getAllOrderDetailOfCustomerSale(HttpServletRequest request) {
+			BaseResponse response = new BaseResponse();
+			response.setStatus(ResponseStatusEnum.SUCCESS);
+			response.setMessage(ResponseStatusEnum.SUCCESS);
+			response.setData(null);
+			try {
+				Customer customer = getCustomer(request);
+				if(customer == null) {
+					response.setStatus(ResponseStatusEnum.UNAUTHORIZED);
+					response.setMessage(ResponseStatusEnum.UNAUTHORIZED);
+				}else {
+					List<Product> products = productService.findAllProduct();
+					List<Product> idProduct = productService.findListIdProductByIdCustomer(products, customer.getId());
+					List<ProductDetail> productDetailResponse = new ArrayList<>();
+					for(Product p: idProduct) {
+						productDetailResponse.add(productDetailService.findProductDetailByIdProduct(p));
+					}
+					List<OrderDetail> orderDetails = new ArrayList<>();
+					List<OrderDetail> orderDetailsAll = orderDetailService.findAllOrderDetails();
+					for(ProductDetail productDetail: productDetailResponse) {
+						orderDetails.add(orderDetailService.findOrderDetailsByIdProductDetail(orderDetailsAll, productDetail.getId()));
+					}
+					List<Object> orderDetailResponse = new ArrayList<>();
+					for(OrderDetail orderDetail: orderDetails) {
+						ProductDetail productDetail = productDetailService.findProductDetailById(orderDetail.getId_product_detail());
+						Customer customerOrdered = customerService.findCustomerById(orderDetail.getId()); 
+						Object object = new Object() {
+							public final int id = orderDetail.getId();
+							public final int id_product_detail = orderDetail.getId_product_detail();
+							public final int id_customer = customerOrdered.getId();
+							public final String name = orderDetail.getName();
+							public final String avatar = productDetail.getImage_product_detail();
+							public final String address = customerOrdered.getAddress_full_text() +" " + customerOrdered.getStreetname() +
+									", " + customerOrdered.getId_ward().getName() + ", " + customerOrdered.getId_district().getName()+
+									", " + customerOrdered.getId_city().getName();
+							public final float price = orderDetail.getPrice();
+							public final float quantity = orderDetail.getPrice();
+							public final float amount = orderDetail.getAmount();
+							public final Boolean status = orderDetail.getStatus();
+						};
+						orderDetailResponse.add(object);
+					}
+					response.setData(orderDetailResponse);	
+				}
+			}catch(Exception ex) {
+				response.setStatus(ResponseStatusEnum.FAIL);
+				response.setMessageError(ex.getMessage());
+			}
+			return new ResponseEntity<BaseResponse>(response, HttpStatus.OK);
 		}
 	// customer add product detail
 	@PreAuthorize("hasRole('CUSTOMER')")

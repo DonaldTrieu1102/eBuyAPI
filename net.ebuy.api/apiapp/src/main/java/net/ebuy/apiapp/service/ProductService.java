@@ -25,4 +25,7 @@ public interface ProductService {
 	List<Integer> findListIdProductByIdType(List<Product>  listProduct,int idType);
 	
 	List<Integer> findListIdProductByIdTypeProduct(List<Product>  listProduct,int idTypeProduct);
+	
+	List<Product> findListIdProductByIdCustomer(List<Product>  listProduct,int idCustomer);
+
 }

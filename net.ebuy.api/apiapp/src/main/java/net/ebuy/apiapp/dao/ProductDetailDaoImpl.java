@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import net.ebuy.apiapp.model.OrderDetail;
+import net.ebuy.apiapp.model.Product;
 import net.ebuy.apiapp.model.ProductDetail;
 /**
  * @author Donald Trieu
@@ -74,6 +75,14 @@ public class ProductDetailDaoImpl extends AbstractDao<Integer, ProductDetail> im
 		
 		return listProductDetail;
 		
+	}
+
+	@Override
+	public ProductDetail findProductDetailByIdProduct(Product product) {
+		// TODO Auto-generated method stub
+		return (ProductDetail)sessionFactory.getCurrentSession().createCriteria(ProductDetail.class)
+				.add(Restrictions.eq("id_product", product))
+				.uniqueResult();
 	}
 
 	

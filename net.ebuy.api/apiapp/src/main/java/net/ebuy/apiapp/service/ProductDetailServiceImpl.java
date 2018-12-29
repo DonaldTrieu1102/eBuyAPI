@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.ebuy.apiapp.model.Product;
 import net.ebuy.apiapp.model.ProductDetail;
 import net.ebuy.apiapp.dao.ProductDetailDao;
 /**
@@ -59,6 +60,12 @@ public class ProductDetailServiceImpl implements ProductDetailService {
 	public void updateProductDetail(ProductDetail productDetail) {
 		// TODO Auto-generated method stub
 		dao.updateProductDetail(productDetail);
+	}
+
+	@Override
+	public ProductDetail findProductDetailByIdProduct(Product product) {
+		// TODO Auto-generated method stub
+		return dao.findProductDetailByIdProduct(product);
 	}
 
 }

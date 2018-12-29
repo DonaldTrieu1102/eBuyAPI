@@ -69,5 +69,11 @@ public class ProductServiceImpl implements ProductService{
 		return dao.findNewProduct(products, customerId, created_at);
 	}
 
+	@Override
+	public List<Product> findListIdProductByIdCustomer(List<Product> listProduct, int idCustomer) {
+		// TODO Auto-generated method stub
+		return dao.findListIdProductByIdCustomer(listProduct, idCustomer);
+	}
+
 	
 }

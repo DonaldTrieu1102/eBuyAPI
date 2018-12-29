@@ -2,6 +2,7 @@ package net.ebuy.apiapp.service;
 
 import java.util.List;
 
+import net.ebuy.apiapp.model.Product;
 import net.ebuy.apiapp.model.ProductDetail;
 /**
  * @author Donald Trieu
@@ -24,6 +25,7 @@ public interface ProductDetailService {
 	
 	List<ProductDetail> findListProductDetailByIdProduct(List<ProductDetail> list,int idProduct);
 	
+	ProductDetail findProductDetailByIdProduct(Product product);
 
 
 }

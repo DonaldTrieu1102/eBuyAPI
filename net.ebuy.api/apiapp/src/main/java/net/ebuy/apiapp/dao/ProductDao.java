@@ -28,4 +28,8 @@ public interface ProductDao {
 	
 	// Tìm một list id_product bằng id_type_product
 	List<Integer> findListIdProductByIdTypeProduct(List<Product>  listProduct,int idTypeProduct);
+	
+	List<Product> findListIdProductByIdCustomer(List<Product>  listProduct,int idCustomer);
+
+	
 }

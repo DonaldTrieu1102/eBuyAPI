@@ -27,6 +27,8 @@ public interface OrderDetailDao {
 	
 	OrderDetail findOrderDetailById(int orderDetailId);
 
+	OrderDetail findOrderDetailsByIdProductDetail(List<OrderDetail> orderDetails,int idproductDetail);
+
 	
 
 }

@@ -101,6 +101,14 @@ public class ProductDaoImpl extends AbstractDao<Integer, Product> implements Pro
 				.orElse(null);
 		return product;
 	}
+
+	@Override
+	public List<Product> findListIdProductByIdCustomer(List<Product> listProduct, int idCustomer) {
+		// TODO Auto-generated method stub
+		List<Product> list = listProduct.stream().filter(p -> p.getId_customer().getId()==idCustomer)
+				.collect(Collectors.toList());
+		return list;	
+	}
 	
 
 }
